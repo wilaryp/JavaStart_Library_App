@@ -27,7 +27,7 @@ public class SerializableFIleManager implements FileManager{
         } catch (FileNotFoundException e) {
             throw new DataExportException("Brak pliku " + FILE_NAME);
         } catch (IOException e) {
-            throw new DataExportException("Brak zapisu danych do pliku " + FILE_NAME);;
+            throw new DataExportException("Brak zapisu danych do pliku " + FILE_NAME);
         }
 
     }
