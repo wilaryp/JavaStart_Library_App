@@ -1,6 +1,7 @@
 package io.file;
 
 import exception.DataExportException;
+import exception.DataImportException;
 import model.Library;
 
 import java.io.*;
@@ -16,11 +17,11 @@ public class SerializableFIleManager implements FileManager{
               ){
             return (Library)ois.readObject(); //rzutowanie na obiekt Library, bo metoda readObject zwraca referencję typu Object
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new DataImportException("Brak pliku " + FILE_NAME);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new DataImportException("Brak odczytu pliku " +FILE_NAME);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new DataImportException("Niezgodny typ danych w pliu " +FILE_NAME);
         }
     }
 

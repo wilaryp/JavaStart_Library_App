@@ -1,8 +1,12 @@
 package app;
 
+import exception.DataExportException;
+import exception.DataImportException;
 import exception.NoSuchOptionException;
 import io.ConsolePrinter;
 import io.DataReader;
+import io.file.FileManager;
+import io.file.FileManagerBuilder;
 import model.Library;
 import model.Book;
 import model.Magazine;
@@ -23,9 +27,24 @@ public class LibraryControl {
 */
     private ConsolePrinter printer = new ConsolePrinter();
     private DataReader dataReader = new DataReader(printer);
-    private Library library = new Library();
+    private FileManager fileManager;
 
-    public void controlLoop(){
+    private Library library;
+
+    LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+        try {
+            library = fileManager.importData();
+            printer.printLine("Zaimportowano dane z pliku");
+        } catch (DataImportException e) {
+            printer.printLine(e.getMessage());
+            printer.printLine("Zainicjowano nową bazę.");
+            library = new Library();
+        }
+
+    }
+
+    void controlLoop(){
         //wcześniej przed wprowadzeniem typu enum (Option) był typ int.
         // int option;
         Option option;
@@ -79,6 +98,13 @@ public class LibraryControl {
     }
 
     private void exit() {
+        //eksport danych do pliku po wyjściu z programu:
+        try {
+            printer.printLine("Eksport danych do pliku zakończony powodzeniem");
+            fileManager.exportData(library);
+        } catch (DataExportException e) {
+            printer.printLine(e.getMessage());
+        }
         printer.printLine("Koniec programu, papa!");
         dataReader.close();
     }

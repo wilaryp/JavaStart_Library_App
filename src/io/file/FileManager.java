@@ -2,7 +2,7 @@ package io.file;
 
 import model.Library;
 
-interface FileManager {
+public interface FileManager {
     Library importData();
     void exportData(Library library);
 }

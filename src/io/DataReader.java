@@ -11,7 +11,7 @@ public class DataReader {
 
     //wstrzykiwanie zależności, żeby nie tworzyć obiektu ConsolePrinter, bo chcemy skorzystać za metody tam się znajdującej "printer"
     //obiekt DataReader, zależy od obiektu ConsolePrinter, wiec taki obiekt powinniśmy dostarczyć przez konstruktor
-    //jeżeli chcesz korzystać z obiektu DataReader, najpierw musisz mieć obiekt ConsolePrinter
+    //jeżeli chcemy korzystać z obiektu DataReader, najpierw musisz mieć obiekt ConsolePrinter
 
     public DataReader(ConsolePrinter printer) {
         this.printer = printer;
@@ -59,6 +59,10 @@ public class DataReader {
         } finally {
             sc.nextLine();
         }
+    }
+
+    public String getString(){
+        return sc.nextLine();
     }
 
     public void close(){
