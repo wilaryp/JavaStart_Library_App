@@ -8,7 +8,7 @@ public abstract class Publication implements Serializable {
    private String title;
    private String publisher;
 
-    Publication(int year, String title, String publisher) {
+    Publication(String title, String publisher, int year) {
         this.year = year;
         this.title = title;
         this.publisher = publisher;
@@ -37,6 +37,8 @@ public abstract class Publication implements Serializable {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+
+    public abstract String toCsv();
 
     @Override
     public String toString() {

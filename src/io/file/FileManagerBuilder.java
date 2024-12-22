@@ -19,6 +19,8 @@ public class FileManagerBuilder {
         switch (fileType) {
             case SERIAL:
                 return new SerializableFIleManager();
+            case CSV:
+                return new CsvFileManager();
             default:
                 throw new NoSuchFileTypeException("Nieobs³ugiwany typ danych");
         }
@@ -34,6 +36,7 @@ public class FileManagerBuilder {
             String type = reader.getString().toUpperCase();
             try {
                 //do zamiany Stringa na enuma s³u¿y metoda valueOf, któr¹ wywo³ujemy na naszym enumie
+                //przekazujemy typ przekazany przez u¿ytkownika (type)
                 result = FileType.valueOf(type);
                 typeOk = true;
             } catch (IllegalArgumentException e){
