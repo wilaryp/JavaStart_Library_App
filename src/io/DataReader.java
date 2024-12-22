@@ -9,10 +9,10 @@ public class DataReader {
     private Scanner sc = new Scanner(System.in);
     private ConsolePrinter printer; // tutaj mogłoby być poprostu "private ConsolePrinter printer = new ConsolePrinter();
 
-    //wstrzykiwanie zależności, żeby nie tworzyć obiektu ConsolePrinter, bo chcemy skorzystać za metody tam się znajdującej "printer"
+    //wstrzykiwanie zależności, żeby nie tworzyć obiektu ConsolePrinter, bo chcemy skorzystać z metody tam się znajdującej "printer"
     //obiekt DataReader, zależy od obiektu ConsolePrinter, wiec taki obiekt powinniśmy dostarczyć przez konstruktor
     //jeżeli chcemy korzystać z obiektu DataReader, najpierw musisz mieć obiekt ConsolePrinter
-
+    //Powyższy komentarz dotyczy tego konstrukotra, to jest to wstrzykiwanie.
     public DataReader(ConsolePrinter printer) {
         this.printer = printer;
     }
@@ -31,7 +31,7 @@ public class DataReader {
             int releaseDate = getInt();
             printer.printLine("Liczba stron:");
             int pages = getInt();
-            return new Book(releaseDate, title, publisher, author, pages,  isbn);
+            return new Book(title, author, releaseDate, pages, publisher, isbn);
             //return book;
     }
 
@@ -44,12 +44,12 @@ public class DataReader {
         printer.printLine("Język: ");
         String language = sc.nextLine();
         printer.printLine("Rok wydania: ");
-        int releaseDate = getInt();
+        int year = getInt();
         printer.printLine("Miesiąc: ");
         int month = getInt();
         printer.printLine("Dzień: ");
         int day = getInt();
-        return new Magazine(releaseDate, title, publisher, month, day, language);
+        return new Magazine(title, publisher, language, year, month, day);
         //return book;
     }
 

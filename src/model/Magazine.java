@@ -3,16 +3,17 @@ package model;
 import java.util.Objects;
 
 public class Magazine extends Publication{
-
+    public static final String TYPE = "Magazyn";
     private int month;
     private int day;
     private String language;
 
-    public Magazine(int year, String title, String publisher, int month, int day, String language) {
-        super(year, title, publisher);
+    public Magazine(String title, String publisher,String language, int year, int month, int day) {
+        super(title, publisher, year);
+        this.language = language;
         this.month = month;
         this.day = day;
-        this.language = language;
+
     }
 
     public int getMonth() {
@@ -37,6 +38,17 @@ public class Magazine extends Publication{
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    @Override
+    public String toCsv() {
+        return (TYPE + ";") +
+                getTitle() + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                month + ";" +
+                day + ";" +
+                language;
     }
 
     @Override

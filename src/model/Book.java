@@ -3,15 +3,15 @@ package model;
 import java.util.Objects;
 
 public class Book extends Publication {
-
+    public static final String TYPE = "Książka";
     private String author;
     private int pages;
     private String isbn;
 
-    public Book(int year, String title, String publisher, String author, int pages, String isbn) {
-        super(year, title, publisher);
-        this.author = author;
+    public Book(String title, String author, int year, int pages, String publisher, String isbn) {
+        super(title, publisher, year);
         this.pages = pages;
+        this.author = author;
         this.isbn = isbn;
     }
 
@@ -40,8 +40,19 @@ public class Book extends Publication {
     }
 
     @Override
+    public String toCsv() {
+        return (TYPE + ";") +
+                getTitle() + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                author + ";" +
+                pages + ";" +
+                isbn + "";
+    }
+
+    @Override
     public String toString() {
-        return super.toString() + "; " + author + "; " + pages + "; " + isbn;
+        return super.toString() + author + "; " + pages + "; " + isbn;
     }
 
     @Override
