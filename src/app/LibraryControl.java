@@ -67,6 +67,12 @@ public class LibraryControl {
                 case PRINT_MAGAZINES:
                     printMagazines();
                     break;
+                case DELETE_BOOK:
+                    deleteBook();
+                    break;
+                case DELETE_MAGAZINE:
+                    deleteMagazine();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -78,6 +84,7 @@ public class LibraryControl {
         //przed typem wyliczeniowym było while (option != EXIT); - ale teraz też by działało,
         // nie wiem czemu zmieniamy na Option.EXIT
     }
+
 
     private Option getOption() {
         boolean optionOk = false;
@@ -127,6 +134,18 @@ public class LibraryControl {
         }
     }
 
+    private void deleteBook() {
+        try {
+            Book book = dataReader.readAndCreateBook();
+            if (library.removePublication(book))
+                printer.printLine("Usunięto książkę");
+            else
+                printer.printLine("Brak wskazanego magazynu");
+        } catch (InputMismatchException e) {
+            printer.printLine("Nie udało się utworzyć książki, niepoprawne dane");
+        }
+    }
+
     private void printMagazines() {
         Publication[] publications = library.getPublications();
         printer.printMagazines(publications);
@@ -141,7 +160,18 @@ public class LibraryControl {
         } catch (ArrayIndexOutOfBoundsException e){
             printer.printLine("Osiągnięto limit polemności, nie można dodać kolejnegp magazynu");
         }
+    }
 
+    private void deleteMagazine() {
+        try {
+            Magazine magazine = dataReader.readAndCreateMagazine();
+            if (library.removePublication(magazine))
+                printer.printLine("Usunięto magazyn");
+            else
+                printer.printLine("Brak wskazanego magazynu");
+        } catch (InputMismatchException e) {
+            printer.printLine("Nie udało się utworzyć magazynu, niepoprawne dane");
+        }
     }
 
     // wyświetlanie menu
@@ -159,7 +189,9 @@ public class LibraryControl {
         ADD_BOOK (1, "dodanie nowej książki"),
         PRINT_BOOKS (2, "wyświetl dostępne książki"),
         ADD_MAGAZINE(3, "dodanie nowego magazynu"),
-        PRINT_MAGAZINES(4, "wyświetl dostępne magazyny");
+        PRINT_MAGAZINES(4, "wyświetl dostępne magazyny"),
+        DELETE_BOOK(5, "Usuń książkę"),
+        DELETE_MAGAZINE(6, "Usuń magazyn");
 
         private int value;
         private String description;
