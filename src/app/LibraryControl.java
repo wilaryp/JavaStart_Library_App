@@ -12,8 +12,11 @@ import model.Library;
 import model.Book;
 import model.Magazine;
 import model.Publication;
+import model.comparator.AlphabeticalComparator;
+import model.comparator.DateComparator;
 
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -118,7 +121,7 @@ public class LibraryControl {
     }
 
     private void printBooks() {
-        Publication[] publications = library.getPublications();
+        Publication[] publications = getSortedfPublications();
         printer.printBooks(publications);
 
     }
@@ -147,8 +150,14 @@ public class LibraryControl {
     }
 
     private void printMagazines() {
-        Publication[] publications = library.getPublications();
+        Publication[] publications = getSortedfPublications();
         printer.printMagazines(publications);
+    }
+
+    private Publication[] getSortedfPublications() {
+        Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new DateComparator());
+        return publications;
     }
 
     private void addMagazine() {
