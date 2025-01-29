@@ -1,22 +1,12 @@
 package app;
 
-import exception.DataExportException;
-import exception.DataImportException;
-import exception.InvalidDataException;
-import exception.NoSuchOptionException;
+import exception.*;
 import io.ConsolePrinter;
 import io.DataReader;
 import io.file.FileManager;
 import io.file.FileManagerBuilder;
-import model.Library;
-import model.Book;
-import model.Magazine;
-import model.Publication;
-import model.comparator.AlphabeticalComparator;
-import model.comparator.DateComparator;
+import model.*;
 
-
-import java.util.Arrays;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -76,6 +66,12 @@ public class LibraryControl {
                 case DELETE_MAGAZINE:
                     deleteMagazine();
                     break;
+                case ADD_USER:
+                    addUser();
+                    break;
+                case PRINT_USERS:
+                    printUsers();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -86,6 +82,20 @@ public class LibraryControl {
         while (option != Option.EXIT);
         //przed typem wyliczeniowym było while (option != EXIT); - ale teraz też by działało,
         // nie wiem czemu zmieniamy na Option.EXIT
+    }
+
+    private void printUsers() {
+        printer.printUsers(library.getUsers().values());
+
+    }
+
+    private void addUser() {
+        LibraryUser libraryUser = dataReader.createLibraryUser();
+        try {
+            library.addUser(libraryUser);
+        } catch (UserAlreadyExistsException e){
+            printer.printLine(e.getMessage());
+        }
     }
 
 
@@ -121,8 +131,7 @@ public class LibraryControl {
     }
 
     private void printBooks() {
-        Publication[] publications = getSortedfPublications();
-        printer.printBooks(publications);
+        printer.printBooks(library.getPublications().values());
 
     }
 
@@ -150,14 +159,7 @@ public class LibraryControl {
     }
 
     private void printMagazines() {
-        Publication[] publications = getSortedfPublications();
-        printer.printMagazines(publications);
-    }
-
-    private Publication[] getSortedfPublications() {
-        Publication[] publications = library.getPublications();
-        Arrays.sort(publications, new DateComparator());
-        return publications;
+        printer.printMagazines(library.getPublications().values());
     }
 
     private void addMagazine() {
@@ -193,14 +195,16 @@ public class LibraryControl {
         }
     }
 
-    public enum Option {
+    private enum Option {
         EXIT (0, "wyjście z programu"),
         ADD_BOOK (1, "dodanie nowej książki"),
         PRINT_BOOKS (2, "wyświetl dostępne książki"),
         ADD_MAGAZINE(3, "dodanie nowego magazynu"),
         PRINT_MAGAZINES(4, "wyświetl dostępne magazyny"),
         DELETE_BOOK(5, "Usuń książkę"),
-        DELETE_MAGAZINE(6, "Usuń magazyn");
+        DELETE_MAGAZINE(6, "Usuń magazyn"),
+        ADD_USER(7, "Dodaj uzytkownika"),
+        PRINT_USERS(8, "Wyswietl uzytkownika");
 
         private int value;
         private String description;
