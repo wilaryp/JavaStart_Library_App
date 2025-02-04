@@ -4,7 +4,7 @@ import model.Publication;
 
 import java.util.Comparator;
 
-public class AlphabeticalComparator implements Comparator<Publication> {
+public class AlphabeticalTitleComparator implements Comparator<Publication> {
 
 
     @Override
