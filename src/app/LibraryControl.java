@@ -73,9 +73,13 @@ public class LibraryControl {
                 case PRINT_USERS:
                     printUsers();
                     break;
+                case FIND_BOOK:
+                    findBook();
+                    break;
                 case EXIT:
                     exit();
                     break;
+
                 default:
                     printer.printLine("Nie ma takiej opcji, wprowadź ponownie");
             }
@@ -83,6 +87,17 @@ public class LibraryControl {
         while (option != Option.EXIT);
         //przed typem wyliczeniowym było while (option != EXIT); - ale teraz też by działało,
         // nie wiem czemu zmieniamy na Option.EXIT
+    }
+
+    private void findBook() {
+        printer.printLine("Podaj tytuł publikacji:");
+        String title = dataReader.getString();
+        String noFoundMessage = "Brak publikacji o takim tytule";
+        library.findPublicationByTitle(title)
+                .map(Publication::toString)
+                .ifPresentOrElse(System.out::println, ()-> System.out.println(noFoundMessage));
+
+
     }
 
     private void printUsers() {
@@ -214,7 +229,8 @@ public class LibraryControl {
         DELETE_BOOK(5, "Usuń książkę"),
         DELETE_MAGAZINE(6, "Usuń magazyn"),
         ADD_USER(7, "Dodaj uzytkownika"),
-        PRINT_USERS(8, "Wyswietl uzytkownika");
+        PRINT_USERS(8, "Wyswietl uzytkownika"),
+        FIND_BOOK(9, "Wyszukaj książkę");
 
         private int value;
         private String description;
